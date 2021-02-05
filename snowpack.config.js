@@ -7,9 +7,15 @@ module.exports = {
   },
   plugins: [
     '@snowpack/plugin-react-refresh',
-    '@snowpack/plugin-dotenv'
+    '@snowpack/plugin-dotenv',
+    '@snowpack/plugin-typescript'
+  ],
+  routes:[
+    {"match": "routes", "src": ".*", "dest":"/index.html"}
   ],
   packageOptions: {
+    // source: "remote",
+    types: true,
     knownEntrypoints: {}
     /* ... */
   },

@@ -1,48 +1,62 @@
-import styled from "@emotion/styled";
-import React from "react";
-import { useQueryClient } from "react-query";
-import usePopularMovies from "../api/hooks/usePopularMovies";
+import styled from '@emotion/styled';
+import React from 'react';
+import { useQueryClient } from 'react-query';
+import usePopularMovies from '../api/hooks/usePopularMovies';
 
 const Styledsection = styled.section`
   padding: 4rem;
-  background-color: #222526;
+  background-color: #fefefe;
 
   h1 {
-    font-size: 4rem;
+    text-align: left;
+    letter-spacing: 0.5px;
+    font-size: 2rem;
     text-transform: uppercase;
+    font-family: 'Exo';
   }
 
   li {
     cursor: pointer;
+    transition: transform 100ms ease-in-out;
     &:hover {
       transform: translate3d(0, -1rem, 1rem);
       transform: scale(1.21);
     }
+
+    h5 {
+      font-family: 'Rubik';
+      text-align: center;
+      letter-spacing: 1px;
+    }
   }
 `;
-export const PopularMovies = ({ setMovieId }) => {
+
+interface PopularMovies {
+  setMovieId: (x: number) => void;
+}
+export const PopularMovies = ({ setMovieId }: PopularMovies) => {
   const queryClient = useQueryClient();
   const { status, data, error, isFetching } = usePopularMovies();
-
+  console.log(data);
   return (
     <Styledsection>
       <h1>Popular Movies</h1>
-      {status === "loading" ? (
+      {status === 'loading' ? (
         <p>Loading movies...</p>
-      ) : status === "error" ? (
-        <span>Error: {error.message}</span>
+      ) : status === 'error' ? (
+        <span>Error: {error?.message}</span>
       ) : (
         <>
           <ul
             className="movie-list"
             style={{
-              display: "grid",
+              display: 'grid',
               gridTemplateColumns: `repeat(auto-fit, minmax(10rem, 1fr))`,
               gap: `1rem`,
-              listStyle: "none",
+              listStyle: 'none',
             }}
           >
-            {data?.results?.map((movie) => (
+            {data?.results?.map((movie: any) => (
               <li
                 className="movie-list__listing"
                 key={movie.id}
@@ -59,10 +73,10 @@ export const PopularMovies = ({ setMovieId }) => {
                       style={
                         // We can use the queryCache here to show bold links for
                         // ones that are cached
-                        queryClient.getQueryData(["movie", movie.id])
+                        queryClient.getQueryData(['movie', movie.id])
                           ? {
-                              fontWeight: "bold",
-                              color: "red",
+                              fontWeight: 'bold',
+                              color: 'red',
                               margin: 0,
                             }
                           : { margin: 0 }
@@ -77,7 +91,7 @@ export const PopularMovies = ({ setMovieId }) => {
               </li>
             ))}
           </ul>
-          <div>{isFetching ? "Background updating..." : " "}</div>
+          <div>{isFetching ? 'Background updating...' : ' '}</div>
         </>
       )}
     </Styledsection>

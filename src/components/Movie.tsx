@@ -1,8 +1,12 @@
 import React from 'react';
 import { AiFillAccountBook } from 'react-icons/ai';
-import useMovie from "../api/hooks/useMovie";
+import useMovie from '../api/hooks/useMovie';
 
-export const Movie = ({ movieId, setMovieId }) => {
+interface Movie {
+  movieId: number;
+  setMovieId: (x: number) => void;
+}
+export const Movie = ({ movieId, setMovieId }: Movie) => {
   const { status, data, error, isFetching } = useMovie(movieId);
 
   return (
@@ -12,14 +16,14 @@ export const Movie = ({ movieId, setMovieId }) => {
           Back <AiFillAccountBook />
         </a>
       </div>
-      {!movieId || status === "loading" ? (
-        "Loading..."
-      ) : status === "error" ? (
-        <span>Error: {error.message}</span>
+      {!movieId || status === 'loading' ? (
+        'Loading...'
+      ) : status === 'error' ? (
+        <span>Error: {error?.message}</span>
       ) : (
         <>
           <img
-            src={`https://image.tmdb.org/t/p/original${data.backdrop_path}`}
+            src={`https://image.tmdb.org/t/p/original${data?.backdrop_path}`}
             alt=""
             style={{ width: `100%` }}
           />
